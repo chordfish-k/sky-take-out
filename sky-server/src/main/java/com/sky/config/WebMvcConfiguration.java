@@ -54,6 +54,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .apis(RequestHandlerSelectors.basePackage("com.sky.controller"))
                 .paths(PathSelectors.any())
                 .build();
+        log.info("接口文档地址：http://localhost:8080/doc.html");
         return docket;
     }
 
@@ -62,6 +63,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @param registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 接口文档地址: localhost:8080/doc.html
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
