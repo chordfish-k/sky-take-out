@@ -41,5 +41,5 @@ sky:
     admin-token-name: token
 
 media:
-  url: 127.0.0.1:8080
+  url: 127.0.0.1:8080/img/
   path: ${user.dir}/media/pic/

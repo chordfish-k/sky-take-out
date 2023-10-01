@@ -58,7 +58,10 @@ public class CommonController {
             if (!(mediaUrl.startsWith("http://") || mediaUrl.startsWith("https//"))) {
                 mediaUrl = "http://" + mediaUrl;
             }
-            log.info("图片地址：{}", mediaUrl + "/img/" + fileName);
+            if (!mediaUrl.endsWith("/")) {
+                mediaUrl = mediaUrl + "/";
+            }
+            log.info("图片地址：{}", mediaUrl + fileName);
             return Result.success(mediaUrl + fileName);
 
         } catch (IOException e) {
