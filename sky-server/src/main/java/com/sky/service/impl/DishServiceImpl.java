@@ -8,7 +8,6 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.DishFlavor;
-import com.sky.entity.Employee;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.DishMapper;
@@ -163,5 +162,14 @@ public class DishServiceImpl implements DishService {
                 .id(id)
                 .build();
         dishMapper.update(dish);
+    }
+
+    /**
+     * 根据分类id查询菜品列表
+     * @param categoryId
+     * @return
+     */
+    public List<Dish> list(Integer categoryId) {
+        return dishMapper.list(categoryId);
     }
 }
