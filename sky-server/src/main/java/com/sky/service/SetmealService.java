@@ -33,4 +33,10 @@ public interface SetmealService {
      * @return
      */
     SetmealVO getByIdWithSetmealDish(Long id);
+
+    /**
+     * 根据id修改套餐和对应的套餐内菜品数据
+     * @param setmealDTO
+     */
+    void updateWithSetmealDish(SetmealDTO setmealDTO);
 }
