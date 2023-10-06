@@ -170,8 +170,8 @@ public class DishServiceImpl implements DishService {
      * @param categoryId
      * @return
      */
-    public List<Dish> list(Long categoryId) {
-        return dishMapper.list(categoryId);
+    public List<Dish> list(Dish dish) {
+        return dishMapper.list(dish);
     }
 
     /**
@@ -180,7 +180,7 @@ public class DishServiceImpl implements DishService {
      * @return
      */
     public List<DishVO> listWithFlavor(Dish dish) {
-        List<Dish> dishList = dishMapper.list(dish.getCategoryId());
+        List<Dish> dishList = dishMapper.list(dish);
 
         List<DishVO> dishVOList = new ArrayList<>();
 
