@@ -157,7 +157,13 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.update(orders);
     }
 
-    @Override
+    /**
+     * 用户端订单分页查询
+     * @param pageNum
+     * @param pageSize
+     * @param status
+     * @return
+     */
     public PageResult pageQuery4User(Integer pageNum, Integer pageSize, Integer status) {
         // 设置分页
         PageHelper.startPage(pageNum, pageSize);
@@ -185,5 +191,24 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return new PageResult(page.getTotal(), list);
+    }
+
+    /**
+     * 根据id查询订单详情
+     * @param id
+     * @return
+     */
+    public OrderVO detail(Integer id) {
+        Orders orders = orderMapper.getById(id);
+
+        // 查询订单明细
+        List<OrderDetail> orderDetails = orderDetailMapper.getByOrderId(orders.getId());
+
+        // 封装VO
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(orders, orderVO);
+        orderVO.setOrderDetailList(orderDetails);
+
+        return orderVO;
     }
 }
