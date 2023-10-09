@@ -41,5 +41,5 @@ public interface OrderMapper {
      * @return
      */
     @Select("select * from orders where id = #{id}")
-    Orders getById(Integer id);
+    Orders getById(Long id);
 }
