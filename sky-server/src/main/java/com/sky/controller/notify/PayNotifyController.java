@@ -9,6 +9,7 @@ import com.wechat.pay.contrib.apache.httpclient.util.AesUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 @Slf4j
 public class PayNotifyController {
     @Autowired
+    @Qualifier("orderServiceFakePayImpl")
     private OrderService orderService;
     @Autowired
     private WeChatProperties weChatProperties;

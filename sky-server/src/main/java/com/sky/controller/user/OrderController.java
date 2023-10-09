@@ -5,6 +5,7 @@ import com.sky.dto.OrdersSubmitDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
+import com.sky.service.impl.OrderServiceFakePayImpl;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
@@ -12,7 +13,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 @RestController("userOrderController")
 @RequestMapping("/user/order")
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     @Autowired
+    @Qualifier("orderServiceFakePayImpl")
     private OrderService orderService;
 
     /**
