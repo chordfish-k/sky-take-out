@@ -21,3 +21,5 @@ sky:
     we-chat-pay-cert-file-path:
     notify-url:
     refund-notify-url:
+  service:
+    order: fake

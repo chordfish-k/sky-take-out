@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     @Autowired
-    @Qualifier("orderServiceFakePayImpl")
     private OrderService orderService;
 
     @GetMapping("/conditionSearch")

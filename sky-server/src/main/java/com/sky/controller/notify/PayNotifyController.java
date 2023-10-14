@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
@@ -26,7 +28,6 @@ import java.util.HashMap;
 @Slf4j
 public class PayNotifyController {
     @Autowired
-    @Qualifier("orderServiceFakePayImpl")
     private OrderService orderService;
     @Autowired
     private WeChatProperties weChatProperties;

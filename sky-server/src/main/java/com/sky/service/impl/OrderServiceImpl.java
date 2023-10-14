@@ -1,5 +1,6 @@
 package com.sky.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -18,9 +19,12 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -28,30 +32,30 @@ import org.springframework.util.CollectionUtils;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@ConditionalOnProperty(name = "sky.service.order", havingValue = "weixin")
 @Slf4j
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderMapper orderMapper;
-
     @Autowired
     private OrderDetailMapper orderDetailMapper;
-
     @Autowired
     private AddressBookMapper addressBookMapper;
-
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
-
     @Autowired
     private UserMapper userMapper;
-
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     /**
      * 提交订单
@@ -158,6 +162,15 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+        // 通过websocket向客户端浏览器推送信息
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 1); // 1来单信息 2催单
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "订单号" + outTradeNo);
+
+        String json = JSONObject.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
     }
 
     /**
@@ -460,4 +473,25 @@ public class OrderServiceImpl implements OrderService {
 
         orderMapper.update(orders);
     }
+
+    /**
+     * 用户催单
+     * @param id
+     */
+    public void reminder(Long id) {
+        // 查询订单是否存在
+        Orders orders = orderMapper.getById(id);
+        if (orders == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        // 基于WebSocket实现催单
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 2);
+        map.put("orderId", orders.getId());
+        map.put("content", "订单号：" + orders.getNumber());
+
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
+    }
+
+
 }

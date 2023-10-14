@@ -63,6 +63,11 @@ sky:
     notify-url: ${sky.wechat.notify-url}
     refund-notify-url: ${sky.wechat.refund-notify-url}
 
+  service:
+    order: fake ${sky.service.order}
+
 media:
   url: 127.0.0.1:8080/img/
   path: ${user.dir}/media/pic/
+
+

@@ -1,39 +1,25 @@
 package com.sky.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.*;
 import com.sky.entity.*;
-import com.sky.exception.AddressBookBusinessException;
 import com.sky.exception.OrderBusinessException;
-import com.sky.exception.ShoppingCartBusinessException;
 import com.sky.mapper.*;
-import com.sky.result.PageResult;
-import com.sky.service.OrderService;
-import com.sky.utils.WeChatPayUtil;
 import com.sky.vo.OrderPaymentVO;
-import com.sky.vo.OrderStatisticsVO;
-import com.sky.vo.OrderSubmitVO;
-import com.sky.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@ConditionalOnProperty(name = "sky.service.order", havingValue = "fake")
 @Slf4j
-public class OrderServiceFakePayImpl extends OrderServiceImpl{
+public class FakeOrderServiceImpl extends OrderServiceImpl{
 
     @Autowired
     private OrderMapper orderMapper;
@@ -72,6 +58,9 @@ public class OrderServiceFakePayImpl extends OrderServiceImpl{
         vo.setPackageStr("xxx");
         vo.setNonceStr("xxx");
         vo.setTimeStamp("xxx");
+
+        // 来单提醒
+        paySuccess(ordersDB.getNumber());
 
         return vo;
     }

@@ -5,7 +5,6 @@ import com.sky.dto.OrdersSubmitDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
-import com.sky.service.impl.OrderServiceFakePayImpl;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
@@ -13,7 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,9 +24,7 @@ import javax.annotation.Resource;
 public class OrderController {
 
     @Autowired
-    @Qualifier("orderServiceFakePayImpl")
     private OrderService orderService;
-
     /**
      * 用户下单
      * @param ordersSubmitDTO
@@ -107,4 +104,14 @@ public class OrderController {
         return Result.success(orderPaymentVO);
     }
 
+    /**
+     * 用户催单
+     * @param id
+     */
+    @GetMapping("/reminder/{id}")
+    @ApiOperation("用户催单")
+    public Result reminder(@PathVariable Long id) {
+        orderService.reminder(id);
+        return Result.success();
+    }
 }
