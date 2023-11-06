@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
         orders.setNumber(String.valueOf(System.currentTimeMillis())); // 订单号为下单时间戳
         orders.setPhone(addressBook.getPhone());
         orders.setConsignee(addressBook.getConsignee()); // 收货人
-        orders.setAddress(addressBook.getDetail());
+        orders.setAddress(addressBook.getProvinceName() + addressBook.getCityName() + addressBook.getDistrictName() + addressBook.getDetail());
         orders.setUserId(userId);
 
         orderMapper.insert(orders);
